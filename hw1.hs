@@ -1,34 +1,40 @@
+module Homework1 where
+
 import Data.Char
 
 
 -- Exercise #1
 
-toDigits :: (Integral a, Show a) => a -> [Int]
-toDigits x = map digitToInt (show x)
+toDigits :: Integer -> [Integer]
+toDigits n | n <= 0    = []
+           | otherwise = (map convertDigit . show) n
+  where convertDigit   = fromIntegral . digitToInt
 
-toDigitsRev :: (Integral a, Show a) => a -> [Int]
+toDigitsRev :: Integer -> [Integer]
 toDigitsRev = reverse . toDigits
 
 
 -- Exercise #2
 
-doubleEveryOther :: [Int] -> [Int]
+doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther nums = zipWith doubleEvens nums [1..]
   where doubleEvens a b = if even b then a * 2 else a
 
 
 -- Exercise #3
 
-sumDigits :: [Int] -> Int
-sumDigits []     = 0
-sumDigits (x:xs) = sum (toDigits x) + sumDigits xs
+sumDigits :: [Integer] -> Integer
+sumDigits = sum . map (sum . toDigits)
 
 
 -- Exercise #4
 
-validate :: (Integral a, Show a) => a -> Bool
-validate cardNumber  = summedDigits `mod` 10 == 0
-  where summedDigits = (sumDigits . doubleEveryOther . toDigitsRev) cardNumber
+validate :: Integer -> Bool
+validate = divisibleByTen
+         . sumDigits
+         . doubleEveryOther
+         . toDigitsRev
+  where divisibleByTen = (\n -> n `mod` 10 == 0)
 
 
 -- Exercise #5 -- Tower of Hanoi
