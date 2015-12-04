@@ -24,7 +24,7 @@ doubleEveryOther nums = zipWith doubleEvens nums [1..]
 -- Exercise #3
 
 sumDigits :: [Integer] -> Integer
-sumDigits = sum . map (sum . toDigits)
+sumDigits = sum . concatMap toDigits
 
 
 -- Exercise #4
