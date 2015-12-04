@@ -1,6 +1,5 @@
 module LogAnalysis where
 
-import Data.Char
 import Log
 
 strToInt :: String -> Int
@@ -57,3 +56,9 @@ whatWentWrong msgs = extractMessages $ inOrder $ build (filter isSevere msgs)
         isSevere _                                 = False
         extractMessages msgs'                      = map extractMessage msgs'
         extractMessage (LogMessage _ _ msg)        = msg
+
+
+main :: IO ()
+main = do
+  messages <- whatWentWrong . parse <$> readFile "error.log"
+  print messages
